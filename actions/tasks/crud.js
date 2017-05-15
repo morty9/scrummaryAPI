@@ -15,7 +15,7 @@ modele.exports = (api) => {
       if (!task) {
         res.status(409).send('task.already.exist');
       }
-      res.status.(201).send(task);
+      res.status(201).send(task);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -81,7 +81,7 @@ modele.exports = (api) => {
   function remove(req, res, next) {
     let taskId = req.params.id ? req.params.id : req.id_task;
     Task
-    destroy({
+    .destroy({
       where : { id : taskId }
     })
     .then((removed) => {
@@ -100,6 +100,14 @@ modele.exports = (api) => {
   //*//
   function assignMembers(res, res, next) {
     //TODO
+  }
+
+  return {
+    create,
+    findOne,
+    findAll,
+    update,
+    remove,
   }
 
 }

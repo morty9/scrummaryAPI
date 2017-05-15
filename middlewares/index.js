@@ -4,9 +4,9 @@ module.exports = (api) => {
 	api.middlewares = {
 		bodyParser: require('body-parser'),
 		logger: require('./logger'),
-		ensureUserName: require('./ensureUserName'),
-		ensureUserPseudo: require('./ensureUserPseudo'),
-		ensureUserEmail: require('./ensureUserEmail'),
-		ensureUserPassword: require('./ensureUserPassword')
+		ensureUserName: require('./User/ensureUserName'),
+		ensureUserPseudo: require('./User/ensureUserPseudo'),
+		ensureUserEmail: require('./User/ensureUserEmail'),
+		ensureUserPassword: require('./User/ensureUserPassword')
 	}
 };

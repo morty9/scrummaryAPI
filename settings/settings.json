@@ -3,7 +3,9 @@
 	"db" : {
 		"sql" : {
 			"database" : "scrummary",
-
+			"host" : "localhost",
+			"user" : "root",
+			"password" : "root"
 		}
 	}
 }

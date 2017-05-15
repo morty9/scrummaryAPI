@@ -16,7 +16,7 @@ module.exports = (api) => {
 		businessValue: Sequelize.FLOAT,
 		duration: Sequelize.DATETIME,
 		id_creator : Sequelize.INTEGER,
-		id_members: Sequelize.INTEGER
+		id_members: Sequelize.ARRAY(Sequelize.STRING)
 	}, {
 		timestamps: true,
 		tableName: 'tasks'

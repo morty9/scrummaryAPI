@@ -9,7 +9,9 @@ module.exports = (api) => {
     },
     beginningDate: Sequelize.DATE,
     endDate: Sequelize.DATE,
-    id_listTasks: Sequelize.STRING
+    id_creato : Sequelize.INTEGER,
+    id_listTasks: Sequelize.STRING,
+    id_members :  Sequelize.ARRAY(Sequelize.INTEGER)
   }, {
     timestamps: true,
     tableName: 'sprint'
