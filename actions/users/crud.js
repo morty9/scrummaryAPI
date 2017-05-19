@@ -1,4 +1,4 @@
-const sha1 = require('sha1');
+//const sha1 = require('sha1');
 
 module.exports = (api) => {
   const User = api.models.User;
@@ -71,8 +71,7 @@ module.exports = (api) => {
         res.status(204).send(users);
       }
       res.status(200).send(users);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       res.status(500).send(err);
     });
   }
@@ -108,7 +107,7 @@ module.exports = (api) => {
       if (!user) {
         res.status(404).send('user.not.found');
       }
-      res.status(200).('user.found');
+      res.status(200).send('user.found');
     })
     .catch((err) => {
       res.status(500).send(err);

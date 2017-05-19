@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-let filePath = path.join(__dirname, '../log/historic.log');
+let filePath = path.join(__dirname, '../logs/historic.log');
 
 module.exports = (req, res, next) => {
 

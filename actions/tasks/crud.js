@@ -1,4 +1,4 @@
-modele.exports = (api) => {
+module.exports = (api) => {
 
   const Task = api.models.Task;
   const User = api.models.User;
