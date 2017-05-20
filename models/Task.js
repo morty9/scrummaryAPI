@@ -14,9 +14,9 @@ module.exports = (api) => {
 		id_category: Sequelize.STRING,
 		color: Sequelize.STRING,
 		businessValue: Sequelize.FLOAT,
-		duration: Sequelize.DATETIME,
+		duration: Sequelize.DATE,
 		id_creator : Sequelize.INTEGER,
-		id_members: Sequelize.ARRAY(Sequelize.STRING)
+		id_members: Sequelize.ARRAY(Sequelize.INTEGER)
 	}, {
 		timestamps: true,
 		tableName: 'tasks'

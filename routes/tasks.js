@@ -20,6 +20,10 @@ module.exports = (api) => {
   	api.middlewares.bodyParser.json(),
   	api.actions.tasks.update);
 
+  router.put('/name/:id/',
+    api.middlewares.bodyParser.json(),
+    api.actions.tasks.assignMembers);
+
   router.delete('/:id',
   	api.actions.tasks.remove);
 

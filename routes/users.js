@@ -8,12 +8,15 @@ module.exports = (api) => {
 	router.get('/',
 		api.actions.users.findAll);
 
+	router.get('/name/:name',
+		api.actions.users.getUsers);
+
 	router.post('/',
 		api.middlewares.bodyParser.json(),
-		//api.middlewares.ensureUserPseudo,
-		//api.middlewares.ensureUserName,
-		//api.middlewares.ensureUserEmail,
-		//api.middlewares.ensureUserPassword,
+		api.middlewares.ensureUserPseudo,
+		api.middlewares.ensureUserName,
+		api.middlewares.ensureUserEmail,
+		api.middlewares.ensureUserPassword,
 		api.actions.users.create);
 
 	router.put('/:id',

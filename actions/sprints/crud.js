@@ -1,5 +1,6 @@
 module.exports = (api) => {
 
+  const User = api.models.User;
   const Sprint = api.models.Sprint;
 
   //*//
@@ -25,19 +26,42 @@ module.exports = (api) => {
   //Update a sprint
   //*//
   function update(req, res, next) {
-    Sprint
-    .update(req.body, {
-      where : { id : req.params.id }
-    })
-    .then((isUpdated) => {
-      if (!isUpdated) {
-        res.status(404).send('sprint.not.found');
+    let userExist = true;
+
+    if (req.body.id_members) {
+      let count = 0;
+
+      while (count < req.body.id_members.length) {
+          User
+          .findById(req.body.id_members[count])
+          .then((user) => {
+            if (!user) {
+              res.status(404).send('user.not.found');
+              userExist = false;
+            }
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+          count+=1;
       }
-      res.status(201).send('sprint.updated');
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    })
+    }
+
+    if (userExist) {
+      Sprint
+      .update(req.body, {
+        where : { id : req.params.id }
+      })
+      .then((isUpdated) => {
+        if (!isUpdated) {
+          res.status(404).send('sprint.not.found');
+        }
+        res.status(201).send('sprint.updated');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
+    }
   }
 
   //*//
@@ -92,13 +116,6 @@ module.exports = (api) => {
     .catch((err) => {
       res.status(500).send(err);
     });
-  }
-
-  //*//
-  //Assign members to a task
-  //*//
-  function assignMembers(res, res, next) {
-    //TODO
   }
 
   return {

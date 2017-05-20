@@ -8,8 +8,7 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     User
-    .build(req.body)
-    .save()
+    .create(req.body)
     .then((user) => {
       if (!user) {
         res.status(409).send('user.already.exist');
@@ -101,13 +100,19 @@ module.exports = (api) => {
   //Find user by name
   //*//
   function getUsers(req, res, next) {
+    console.log(req.params.name);
     User
-    .findByName(req.params.nickname, req.params.fullname)
+    .findOne({
+      where : {$or: [
+        {nickname : req.params.name},
+        {fullname : req.params.name}
+      ]}
+    })
     .then((user) => {
       if (!user) {
         res.status(404).send('user.not.found');
       }
-      res.status(200).send('user.found');
+      res.status(200).send(user);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -124,118 +129,3 @@ module.exports = (api) => {
   };
 
 }
-
-
-/*module.exports = (api) => {
-  const User = api.models.User;
-
-  function create(req, res, next) {
-    let user = new User(req.body);
-    user.password = sha1(user.password);
-
-    User.findOne({
-      email: user.email,
-    }, (err, found) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (found) {
-        return res.status(401).send('email.already.exists');
-      }
-
-      user.save((err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        return res.send(data);
-      });
-
-    });
-
-  }
-
-  function findOne(req, res, next) {
-    User.findById(req.params.id, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (!data) {
-        return res.status(204).send(data);
-      }
-
-      return res.send(data);
-    });
-
-  }
-
-  function findAll(req, res, next) {
-      User.find((err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if(!data || data.length == 0) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-
-      });
-  }
-
-  function update(req, res, next) {
-    User.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (!data) {
-        return res.status(204).send(data);
-      }
-
-      return res.send(data);
-    });
-  }
-
-  function remove(req, res, next) {
-    User.findByIdAndRemove(req.params.id, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (!data) {
-        return res.status(204).send();
-      }
-
-      return res.send(data);
-    });
-  }
-
-  function getUsers(req, res, next) {
-    User.findByName(req.params.username, req.params.pseudo, (err, data) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (!data) {
-        return res.status(204).send();
-      }
-
-      return res.send(data);
-    });
-  }
-
-  return {
-    create,
-    findOne,
-    findAll,
-    update,
-    remove,
-    getUsers
-  };
-
-}
-*/

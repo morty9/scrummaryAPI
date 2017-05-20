@@ -10,10 +10,10 @@ module.exports = (api) => {
     title: Sequelize.STRING,
     wording: Sequelize.STRING,
     id_creator : Sequelize.INTEGER,
-    id_members: Sequelize.INTEGER,
-    id_sprint: Sequelize.INTEGER
+    id_members: Sequelize.ARRAY(Sequelize.INTEGER),
+    id_sprint: Sequelize.ARRAY(Sequelize.INTEGER)
   }, {
     timestamps: true,
-    tableName: 'project'
+    tableName: 'projects'
   });
 }

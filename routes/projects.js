@@ -8,6 +8,9 @@ module.exports = (api) => {
 	router.get('/',
 		api.actions.projects.findAll);
 
+	router.get('/name/:name',
+		api.actions.projects.getProjects);
+
 	router.post('/',
 		api.middlewares.bodyParser.json(),
 		//api.middlewares.ensureUserPseudo,

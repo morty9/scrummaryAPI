@@ -26,19 +26,40 @@ module.exports = (api) => {
   //Update a task
   //*//
   function update(req, res, next) {
-    Task
-    .update(req.body, {
-      where : { id : req.params.id }
-    })
-    .then((isUpdated) => {
-      if (!isUpdated) {
-        res.status(404).send('task.not.found');
+    let userExist = true;
+    if (req.body.id_members) {
+      let count = 0;
+      while (count < req.body.id_members) {
+          User
+          .findById(req.body.id_members[count])
+          .then((user) => {
+            if (!user) {
+              res.status(404).send('user.not.found');
+              userExist = false;
+            }
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+          count+=1;
       }
-      res.status(201).send('task.updated');
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    })
+    }
+
+    if (userExist) {
+      Task
+      .update(req.body, {
+        where : { id : req.params.id }
+      })
+      .then((isUpdated) => {
+        if (!isUpdated) {
+          res.status(404).send('task.not.found');
+        }
+        res.status(201).send('task.updated');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
+    }
   }
 
   //*//
@@ -99,110 +120,9 @@ module.exports = (api) => {
   //Assign members to a task
   //*//
   function assignMembers(res, res, next) {
-    //TODO
-  }
-
-  return {
-    create,
-    findOne,
-    findAll,
-    update,
-    remove,
-  }
-
-}
-
-
-/*modele.exports = (api) => {
-
-  const Task = api.models.Task;
-  const User = api.models.User;
-
-  function create(req, res, next) {
-    const userId = req.userId;
-
-    let task = new Task(req.body);
-
-    User.getUsers((err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if(!data) {
-        return res.status(204).send(data);
-      }
-
-      task.members.push(data._id.toString())
-      task.save((err) => {
-        if (err) {
-          return res.status(500).send();
-        }
-        return res.send(data);
-      });
-
-    });
-  }
-
-  function findOne(req, res, next) {
-    Task.findById(req.params.id, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if(!data) {
-        return res.status(204).send(data);
-      }
-      return res.send(data);
-    });
-  }
-
-  function findAll(req, res, next) {
-    Task.find((err, data) => {
-      if (err) {
-          return res.status(500).send(err);
-      }
-
-      if (!data || data.length == 0) {
-        return res.status(204).send(data);
-      }
-
-      return res.send(data);
-
-    });
-  }
-
-  function update(req, res, next) {
-    Task.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if(!data) {
-        return res.status(204).send(data);
-      }
-
-      return res.send(data);
-
-    });
-  }
-
-  function remove(req, res, next) {
-    Task.findByIdAndRemove(req.params.id, (err, data) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      if (!data) {
-        return res.status(204).send(data);
-      }
-
-      return res.send(data);
-    });
-  }
-
-  function assign(req, res, next) {
-    Task.findByIdAndUpdate(req.params.id, {
-      assigned: req.body.userId
+    Task
+    .findByIdAndUpdate(req.params.name, {
+      id_members: req.body.name
     }, (err, task) => {
       if (err) {
         return res.status(500).send(err);
@@ -211,4 +131,13 @@ module.exports = (api) => {
     });
   }
 
-}*/
+  return {
+    create,
+    findOne,
+    findAll,
+    update,
+    remove,
+    assignMembers
+  }
+
+}

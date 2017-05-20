@@ -1,12 +1,10 @@
 {
+	"port" : 3000,
 	"db" : {
 		"sql" : {
-			"host" : "127.0.0.1",
-			"user" : "adminScrummary",
-			"password" : "admin",
-			"database" : "scrummary",
-			"dialect" : "mysql",
-			"port" : 8080
+			"host" : "postgres://localhost:5432",
+			"name" : "scrummary_db",
+			"url": "postgres://localhost:5432/scrummary_db"
 		}
 	}
 }

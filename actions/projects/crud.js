@@ -1,5 +1,6 @@
 module.exports = (api) => {
 
+  const User = api.models.User;
   const Project = api.models.Project;
 
   //*//
@@ -25,25 +26,50 @@ module.exports = (api) => {
   //Update project
   //*//
   function update(req, res, next) {
-    Project
-    .update(req.body, {
-      where : { id : req.params.id }
-    })
-    .then((isUpdated) => {
-      if (!isUpdated) {
-        res.status(404).send('project.not.found');
+    let userExist = true;
+
+    if (req.body.id_members) {
+      let count = 0;
+
+      while (count < req.body.id_members.length) {
+        console.log('is in while');
+        //console.log(req.boby.id_members[count]);
+          User
+          .findById(req.body.id_members[count])
+          .then((user) => {
+            if (!user) {
+              res.status(404).send('user.not.found');
+              userExist = false;
+            }
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+          count+=1;
       }
-      res.status(201).send('project.updated');
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+    }
+
+    if (userExist) {
+      Project
+      .update(req.body, {
+        where : { id : req.params.id }
+      })
+      .then((isUpdated) => {
+        if (!isUpdated) {
+          res.status(404).send('project.not.found');
+        }
+        res.status(201).send('project.updated');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
+    }
   }
 
   //*//
   //Find project by id
   //*//
-  function findOne(res, res, next) {
+  function findOne(req, res, next) {
     Project
     .findById(req.params.id)
     .then((project) => {
@@ -98,7 +124,20 @@ module.exports = (api) => {
   //Get project by name
   //*//
   function getProjects(req, res, next) {
-    //TODO
+    Project
+    .findOne({
+      where :
+        { title : req.params.name }
+    })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send('user.not.found');
+      }
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
   }
 
   return {
@@ -111,114 +150,3 @@ module.exports = (api) => {
   }
 
 }
-
-
-
-
-/*  module.exports = (api) => {
-
-    const Project = api.models.Project;
-
-    function create(req, res, next) {
-      let project = new Project(req.body);
-
-      Project.findOne({
-        title: project.title,
-      }, (err, found) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if (found) {
-          return res.status(401).send('project.already.exists');
-        }
-
-        project.save((err, data) => {
-          if (err) {
-            return res.status(500).send(err);
-          }
-          return res.send(data);
-        });
-      });
-    }
-
-    function findOne(req, res, next) {
-      Project.findByName(req.params.title, (err, data) => {
-        if (err){
-          return res.status(500).send(err);
-        }
-
-        if (!data) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-      });
-    }
-
-    function findAll(req, res, next) {
-      Project.find((err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if (!data) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-      });
-    }
-
-    function update(req, res, next) {
-      Project.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if (!data) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-      });
-    }
-
-    function remove(req, res, next) {
-      Project.findByIdAndRemove(req.params.id, (err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if (!data) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-      });
-    }
-
-    function getProjects(req, res, next) {
-      Project.findByName(req.params.title, (err, data) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        if (!data) {
-          return res.status(204).send(data);
-        }
-
-        return res.send(data);
-      });
-    }
-
-    return {
-      create,
-      findOne,
-      findAll,
-      update,
-      remove,
-      getProjects
-    }
-
-  }*/

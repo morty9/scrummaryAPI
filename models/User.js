@@ -11,10 +11,9 @@ module.exports = (api) => {
 		fullname: Sequelize.STRING,
 		email: Sequelize.STRING,
 		password: Sequelize.STRING,
-		id_role: Sequelize.INTEGER,
-		id_task: Sequelize.INTEGER
+		id_tasks: Sequelize.ARRAY(Sequelize.INTEGER)
 	}, {
 		timestamps: true,
-		tableName: 'user'
+		tableName: 'users'
 	});
 };
