@@ -1,5 +1,4 @@
 {
-	"port" : 8889,
 	"db" : {
 		"sql" : {
 			"host" : "127.0.0.1",
@@ -7,7 +6,7 @@
 			"password" : "admin",
 			"database" : "scrummary",
 			"dialect" : "mysql",
-			"pool" : "false"
+			"port" : 8889
 		}
 	}
 }
