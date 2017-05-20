@@ -101,6 +101,15 @@ module.exports = (api) => {
     //TODO
   }
 
+  return {
+    create,
+    findOne,
+    findAll,
+    update,
+    remove
+  }
+
+
 }
 
 

@@ -6,7 +6,7 @@
 			"password" : "admin",
 			"database" : "scrummary",
 			"dialect" : "mysql",
-			"port" : 8889
+			"port" : 8080
 		}
 	}
 }

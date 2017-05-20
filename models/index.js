@@ -1,4 +1,7 @@
 const Sequelize = require('sequelize');
+const http = require('http');
+const fs = require('fs');
+
 
 module.exports = (api) => {
 	console.log('initializing models...');
@@ -13,15 +16,17 @@ module.exports = (api) => {
 	// 	}
 	// );
 
-	api.sequelize = new Sequelize(
-		'scrummary',
-		'adminScrummary',
-		'admin', {
-			host : 'localhost',
-			port : 8889,
-			dialect : 'mysql'
-		}
-	)
+	// api.sequelize = new Sequelize(
+	// 	'scrummary',
+	// 	'adminScrummary',
+	// 	'admin', {
+	// 		host : 'localhost',
+	// 		port : 8888,
+	// 		dialect : 'mysql'
+	// 	}
+	// )
+
+	api.sequelize = new Sequelize('mysql://adminScrummary:admin@localhost:8080/scrummary');
 
 	api.models = {
 		User: require('./User')(api)
