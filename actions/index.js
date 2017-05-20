@@ -3,6 +3,8 @@ module.exports = (api) => {
 
 	api.actions = {
 		users: require('./users/crud')(api),
+		projects: require('./projects/crud')(api),
+		sprints: require('./sprints/crud')(api),
 		tasks: require('./tasks/crud')(api),
 		auth: require('./auth')(api)
 	};
