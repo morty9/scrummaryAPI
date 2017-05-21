@@ -7,6 +7,7 @@ module.exports = (api) => {
 		ensureUserName: require('./User/ensureUserName'),
 		ensureUserPseudo: require('./User/ensureUserPseudo'),
 		ensureUserEmail: require('./User/ensureUserEmail'),
-		ensureUserPassword: require('./User/ensureUserPassword')
+		ensureUserPassword: require('./User/ensureUserPassword'),
+		ensureAuthenticated: require('./User/ensureAuthenticated')
 	}
 };
