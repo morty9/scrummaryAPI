@@ -100,7 +100,6 @@ module.exports = (api) => {
   //Find user by name
   //*//
   function getUsers(req, res, next) {
-    console.log(req.params.name);
     User
     .findOne({
       where : {$or: [
