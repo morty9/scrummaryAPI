@@ -7,11 +7,18 @@ module.exports = (api) => {
   //Create a new project
   //*//
   function create(req, res, next) {
+    //let members = [];
     let project = Project.build(req.body);
-    project.id_creator = req.id_user;
+    //project.id_creator = req.body.id_user;
+    //members.push(parseInt(req.body.id_members));
+    project.id_members = req.body.id_members;
+    //console.log("BEFORE",project);
     project
     .save()
     .then((project) => {
+      console.log("AFTER",project);
+      //project.id_creator = req.body.id_user;
+      //project.id_members.push(parseInt(req.body.id_members));
       if (!project) {
         res.status(409).send('project.already.exist');
       }
