@@ -1,17 +1,16 @@
-const Schema = require('mongoose').Schema;
-const ttl = require('mongoose-ttl');
-const timestamps = require('mongoose-timestamps');
-//TO FIX
+const Sequelize = require('sequelize');
+
 
 module.exports = (api) => {
-    const schema = new Schema({
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
+  return api.sequelize.define('Token', {
+    id: {
+      type: Sequelize.INTERGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    userId: Sequelize.INTERGER
+    }, {
+      timestamps: true,
+      tableName: 'auth'
     });
-
-    schema.plugin(ttl, {ttl: '1d'});
-    schema.plugin(timestamps);
-    return api.mongoose.model('Token', schema);
-}
+};
