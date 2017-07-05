@@ -5,12 +5,11 @@ module.exports = (api) => {
   //Create a new category
   //*//
   function create(req, res, next) {
-    let category = Category.build(req.body);
-    category
-    .save()
+    Category
+    .create(req.body)
     .then((category) => {
       if (!category) {
-        res.status(409).send('category.already.exists');
+        res.status(404).send('category.already.exists');
       }
       res.status(201).send(category);
     })
@@ -21,7 +20,24 @@ module.exports = (api) => {
   //*//
   //Update a category
   //*//
-  //function update(req, res, next) {}
+  function update(req, res, next) {
+    let categoryId = req.params.id ? req.params.id : req.id_category;
+    Category
+    .update(req.body, {
+      where: {
+        id: categoryId
+      }
+    })
+    .then((updated) => {
+      if (!updated) {
+        res.status(409).send('modification.error');
+      }
+      res.status(200).send('successful.modification');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+  }
 
   //*//
   //Find one category by id
@@ -81,6 +97,7 @@ module.exports = (api) => {
     create,
     findOne,
     findAll,
+    update,
     remove
   }
 }

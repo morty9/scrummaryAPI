@@ -9,7 +9,7 @@ module.exports = (api) => {
 		api.actions.projects.findAll);
 
 	router.get('/name/:name',
-		api.actions.projects.getProjects);
+		api.actions.projects.findByName);
 
 	router.post('/',
 		api.middlewares.bodyParser.json(),

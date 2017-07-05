@@ -125,7 +125,7 @@ module.exports = (api) => {
   //**//
   //Get project by name
   //*//
-  function getProjects(req, res, next) {
+  function findByName(req, res, next) {
     Project
     .findOne({
       where :
@@ -148,7 +148,7 @@ module.exports = (api) => {
     findAll,
     update,
     remove,
-    getProjects
+    findByName
   }
 
 }

@@ -21,7 +21,24 @@ module.exports = (api) => {
   //*//
   //Update a diagram
   //*//
-  //function update(req, res, next) {}
+  function update(req, res, next) {
+    let statId = req.params.id ? req.params.id : req.id_stat;
+    Stat
+    .update(req.body, {
+      where: {
+        id: statId
+      }
+    })
+    .then((updated) => {
+      if (!updated) {
+        res.status(409).send('modification.error');
+      }
+      res.status(200).send('successful.modification');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+  }
 
   //*//
   //Find one diagram by id

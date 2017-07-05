@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
 
 module.exports = (api) => {
-  return api.sequelize.define('Project', {
+  return api.sequelize.define('Stat', {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    listTasks: Sequelize.ARRAY(Sequelize.Task),
-    sprintDuration: Sequelize.DATE,
+    id_listTasks: Sequelize.ARRAY(Sequelize.INTEGER),
+    sprintDuration: Sequelize.INTEGER,
     beginningDateProject: Sequelize.DATE
   }, {
     timestamps: true,

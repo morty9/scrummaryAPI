@@ -10,15 +10,11 @@ module.exports = (api) => {
 
 	router.post('/',
 		api.middlewares.bodyParser.json(),
-		//api.middlewares.ensureUserPseudo,
-		//api.middlewares.ensureUserName,
-		//api.middlewares.ensureUserEmail,
-		//api.middlewares.ensureUserPassword,
 		api.actions.stats.create);
 
-	router.put('/:id',
+	/*router.put('/:id',
 		api.middlewares.bodyParser.json(),
-		api.actions.stats.update);
+		api.actions.stats.update);*/
 
 	router.delete('/:id',
 		api.actions.stats.remove);
