@@ -8,10 +8,12 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let project = Project.build(req.body);
-    project.id_creator = req.id_user;
+    project.id_creator = 1;
+    console.log(req.body);
     project
     .save()
     .then((project) => {
+      console.log("AFTER",project);
       if (!project) {
         res.status(409).send('project.already.exist');
       }
@@ -123,7 +125,7 @@ module.exports = (api) => {
   //**//
   //Get project by name
   //*//
-  function getProjects(req, res, next) {
+  function findByName(req, res, next) {
     Project
     .findOne({
       where :
@@ -146,7 +148,7 @@ module.exports = (api) => {
     findAll,
     update,
     remove,
-    getProjects
+    findByName
   }
 
 }

@@ -15,6 +15,7 @@ module.exports = (api) => {
 		color: Sequelize.STRING,
 		businessValue: Sequelize.FLOAT,
 		duration: Sequelize.DATE,
+		status: Sequelize.STRING,
 		id_creator : Sequelize.INTEGER,
 		id_members: Sequelize.ARRAY(Sequelize.INTEGER)
 	}, {

@@ -4,7 +4,7 @@ module.exports = (api) => {
   const User = api.models.User;
 
   //*//
-  //Create a new taks
+  //Create a new task
   //*//
   function create(req, res, next) {
     let task = Task.build(req.body);

@@ -11,10 +11,12 @@ module.exports = (api) => {
     .create(req.body)
     .then((user) => {
       if (!user) {
-        res.status(409).send('user.already.exist');
+        return res.status(409).send('user.already.exists');
+      } else {
+        return res.status(201).send(user);
       }
-      res.status(201).send(user);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).send(err);
     });
   }
@@ -35,7 +37,7 @@ module.exports = (api) => {
       if (!updated) {
         res.status(409).send('modification.error');
       }
-      res.status(200).send('modification.success');
+      res.status(200).send('successful.modification');
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -99,8 +101,7 @@ module.exports = (api) => {
   //*//
   //Find user by name
   //*//
-  function getUsers(req, res, next) {
-    console.log(req.params.name);
+  function findByName(req, res, next) {
     User
     .findOne({
       where : {$or: [
@@ -123,9 +124,9 @@ module.exports = (api) => {
     create,
     findOne,
     findAll,
+    findByName,
     update,
-    remove,
-    getUsers
+    remove
   };
 
 }
