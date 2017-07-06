@@ -23,6 +23,8 @@ module.exports = (api) => {
 		Sprint: require('./Sprint')(api),
 		Project: require('./Project')(api),
 		Token: require('./Token')(api)
+		Category: require('./Category')(api),
+		Stat: require('./Stat')(api)
 	};
 
 	api.sequelize
