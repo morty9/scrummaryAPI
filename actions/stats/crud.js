@@ -18,7 +18,7 @@ module.exports = (api) => {
       res.status(500).send(err);
     });
   }
-  //*//
+  //*///
   //Update a diagram
   //*//
   function update(req, res, next) {
