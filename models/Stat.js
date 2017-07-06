@@ -14,4 +14,5 @@ module.exports = (api) => {
     timestamps: true,
     tableName: 'stats'
   });
+  #to fix
 };
