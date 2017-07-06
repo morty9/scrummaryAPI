@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const http = require('http');
 const fs = require('fs');
-
+//TO FIX AUTH
 
 module.exports = (api) => {
 	console.log('initializing models...');
@@ -22,6 +22,7 @@ module.exports = (api) => {
 		Task: require('./Task')(api),
 		Sprint: require('./Sprint')(api),
 		Project: require('./Project')(api),
+		Token: require('./Token')(api)
 		Category: require('./Category')(api),
 		Stat: require('./Stat')(api)
 	};
