@@ -7,8 +7,10 @@ module.exports = (api) => {
   //Create a new project
   //*//
   function create(req, res, next) {
+    const userId = req.userId;
     let project = Project.build(req.body);
     project.id_creator = 1;
+    project.id_creator = userId;
     console.log(req.body);
     project
     .save()
