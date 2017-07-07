@@ -21,7 +21,9 @@ module.exports = (api) => {
 		User: require('./User')(api),
 		Task: require('./Task')(api),
 		Sprint: require('./Sprint')(api),
-		Project: require('./Project')(api)
+		Project: require('./Project')(api),
+		Category: require('./Category')(api),
+		Stat: require('./Stat')(api)
 	};
 
 	api.sequelize

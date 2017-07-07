@@ -9,7 +9,7 @@ module.exports = (api) => {
 		api.actions.users.findAll);
 
 	router.get('/name/:name',
-		api.actions.users.getUsers);
+		api.actions.users.findByName);
 
 	router.post('/',
 		api.middlewares.bodyParser.json(),
