@@ -1,11 +1,19 @@
 module.exports = (api) => {
-  const Token = api.models.Token;
+    const AuthToken = api.models.AuthToken;
 
-  return function logout(req, res, next) {
-    Token.remove({userId: req.auth.userId}, (err, data) => {
-            if (err)
-                return res.status(500).send(err);
-            res.send('logout.succeeded');
+    /// Logout (Get)
+    /// Remove the current token for logged in user
+    return function logout(req, res, next) {
+        AuthToken.destroy(
+            { where: { id: req.tokenId }
+        }).then((destroyedRowsCount) => {
+            if(destroyedRowsCount > 0){
+                res.status(201).send("Succesfully logged out");
+            } else {
+                res.status(404).send("Not logged in");
+            }
+        }).catch((error) => {
+            res.status(500).send(error.message);
         });
-  }
+    };
 };

@@ -7,22 +7,14 @@ module.exports = (api) => {
   //Create a new project
   //*//
   function create(req, res, next) {
-    const userId = req.userId;
     let project = Project.build(req.body);
-    project.id_creator = 1;
-    project.id_creator = userId;
-    console.log(req.body);
     project
     .save()
     .then((project) => {
-      console.log("AFTER",project);
-      if (!project) {
-        res.status(409).send('project.already.exist');
-      }
       res.status(201).send(project);
     })
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
     });
   }
 
