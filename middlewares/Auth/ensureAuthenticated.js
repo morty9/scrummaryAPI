@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (api) => {
-    const Token = api.models.Token;
+    const Token = api.models.User;
 
     return (req, res, next) => {
         //#1 Verify authorization header exists.
