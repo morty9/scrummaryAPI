@@ -13,7 +13,6 @@ module.exports = (api) => {
 
 	router.post('/',
 		api.middlewares.bodyParser.json(),
-		api.middlewares.ensureProjectName,
 		api.actions.projects.create);
 
 	router.put('/:id',
