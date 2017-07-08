@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const http = require('http');
 const fs = require('fs');
-
+//TO FIX AUTH
 
 module.exports = (api) => {
 	console.log('initializing models...');
