@@ -1,7 +1,8 @@
-module.exports = (req, res, next) => {
-  if (!req.body || !req.body.members) {
-    return res.status(400).send('missing.fields : ${req.body.members}');
-  }
-
-  return next();
+module.exports = (api) => {
+	return (req, res, next) => {
+		if (!req.body || !req.body.members) {
+			res.status(400).send({code:400, type: 'members', title:'Membres', message:'Veuillez compléter le champ des membres'});
+		}
+		next();
+	}
 }

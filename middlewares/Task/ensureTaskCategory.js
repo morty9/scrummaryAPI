@@ -1,7 +1,8 @@
-module.exports = (req, res, next) => {
-  if (!req.body || !req.body.title) {
-    return res.status(400).send('missing.fields : ${req.body.category}');
-  }
-
-  return next();
+module.exports = (api) => {
+	return (req, res, next) => {
+		if (!req.body || !req.body.id_category) {
+			res.status(400).send({code:400, type: 'category', title:'Catégorie', message:'Veuillez compléter le champ de catégorie'});
+		}
+		next();
+	}
 }

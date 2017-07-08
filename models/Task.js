@@ -11,10 +11,10 @@ module.exports = (api) => {
 		description: Sequelize.STRING,
 		difficulty: Sequelize.INTEGER,
 		priority: Sequelize.INTEGER,
-		id_category: Sequelize.STRING,
+		id_category: Sequelize.DOUBLE,
 		color: Sequelize.STRING,
 		businessValue: Sequelize.FLOAT,
-		duration: Sequelize.DATE,
+		duration: Sequelize.INTEGER,
 		status: Sequelize.STRING,
 		id_creator : Sequelize.INTEGER,
 		id_members: Sequelize.ARRAY(Sequelize.INTEGER)

@@ -1,16 +1,15 @@
 const Sequelize = require('sequelize');
 
-
 module.exports = (api) => {
-  return api.sequelize.define('Token', {
-    id: {
-      type: Sequelize.INTERGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    userId: Sequelize.INTERGER
+    return api.sequelize.define('Token', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        id_user: Sequelize.INTEGER
     }, {
-      timestamps: true,
-      tableName: 'auth'
+        timestamps: true,
+        tableName: 'token'
     });
 };

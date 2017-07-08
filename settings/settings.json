@@ -6,5 +6,8 @@
 			"name" : "scrummary_db",
 			"url": "postgres://localhost:5432/scrummary_db"
 		}
-	}
+	},
+	"security": {
+  	"salt": "Eno4fna$01"
+  }
 }

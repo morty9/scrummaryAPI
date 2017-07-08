@@ -1,4 +1,4 @@
-//const sha1 = require('sha1');
+const sha1 = require('sha1');
 
 module.exports = (api) => {
   const User = api.models.User;
@@ -7,17 +7,19 @@ module.exports = (api) => {
   //Create new User
   //*//
   function create(req, res, next) {
-    User
-    .create(req.body)
+    let user = User.build(req.body);
+    user.password = sha1(user.password);
+    user
+    .save()
     .then((user) => {
-      if (!user) {
-        return res.status(409).send('user.already.exists');
-      } else {
-        return res.status(201).send(user);
-      }
+      return res.status(201).send(user);
     })
     .catch((err) => {
-      res.status(500).send(err);
+      if (err.errors[0].path == 'email') {
+        return res.status(409).send({code: 409, type:'email', title: 'Email incorrect', message: 'Veuillez modifier le champ \"email\" car celui-ci existe déjà.'});
+      } else if (err.errors[0].path == 'nickname') {
+        return res.status(409).send({code: 409, type:'nickname', title: 'Nom d\'utilisateur incorrect', message: 'Veuillez modifier le champ \"nom d\'utilisateur\" car celui-ci existe déjà.'});
+      }
     });
   }
 
@@ -105,8 +107,8 @@ module.exports = (api) => {
     User
     .findOne({
       where : {$or: [
-        {nickname : req.params.name},
-        {fullname : req.params.name}
+        {nickname : req.params.nickname},
+        {fullname : req.params.fullname}
       ]}
     })
     .then((user) => {
