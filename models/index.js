@@ -13,7 +13,6 @@ module.exports = (api) => {
 		Task: require('./Task')(api),
 		Sprint: require('./Sprint')(api),
 		Project: require('./Project')(api),
-		Category: require('./Category')(api),
 		Stat: require('./Stat')(api),
 		Token: require('./Token')(api)
 	};
