@@ -1,13 +1,16 @@
 module.exports = (api) => {
   const Stat = api.models.Stat;
+  const User = api.models.User;
+  const Project = api.models.Project;
+  const Task = api.models.Task;
+  const Sprint = api.models.Sprint;
 
   //*//
   //Create a new diagram
   //*//
   function create(req, res, next) {
-    let stat = Stat.build(req.body);
-    stat
-    .save()
+    Stat
+    .create()
     .then((stat) => {
       if (!stat) {
         res.status(409).send('diagram.already.exists');
@@ -30,9 +33,6 @@ module.exports = (api) => {
       }
     })
     .then((updated) => {
-      if (!updated) {
-        res.status(409).send('modification.error');
-      }
       res.status(200).send('successful.modification');
     })
     .catch((err) => {
@@ -96,6 +96,7 @@ module.exports = (api) => {
 
   return {
     create,
+    update,
     findOne,
     findAll,
     remove

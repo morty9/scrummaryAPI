@@ -7,6 +7,7 @@ module.exports = (api) => {
       autoIncrement: true,
       primaryKey: true
     },
+    id_Project : Sequelize.INTEGER,
     id_listTasks: Sequelize.ARRAY(Sequelize.INTEGER),
     sprintDuration: Sequelize.INTEGER,
     beginningDateProject: Sequelize.DATE
