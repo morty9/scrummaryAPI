@@ -12,7 +12,6 @@ module.exports = (api) => {
     /// --> Require middleware body-parser
     return function login(req, res, next) {
         let userId = 0;
-        console.log(req.body);
         User.findOne({
             where: {
                 email: req.body.email,
@@ -30,7 +29,6 @@ module.exports = (api) => {
                 return res.status(401).send('invalid.credentials');
             }
         }).then((token) => {
-            console.log("TOKEN", token);
             jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + (60 * 60) * 3, // 3 hours.
                     tokenId: token.id.toString() // using the ID of the token has identifier.
