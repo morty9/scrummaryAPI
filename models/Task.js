@@ -11,7 +11,7 @@ module.exports = (api) => {
 		description: Sequelize.STRING,
 		difficulty: Sequelize.INTEGER,
 		priority: Sequelize.INTEGER,
-		id_category: Sequelize.DOUBLE,
+		id_category: Sequelize.INTEGER,
 		color: Sequelize.STRING,
 		businessValue: Sequelize.FLOAT,
 		duration: Sequelize.INTEGER,

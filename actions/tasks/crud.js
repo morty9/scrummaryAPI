@@ -8,17 +8,13 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let task = Task.build(req.body);
-    task.id_creator = req.id_user;
     task
     .save()
     .then((task) => {
-      if (!task) {
-        res.status(409).send('task.already.exist');
-      }
       res.status(201).send(task);
     })
     .catch((err) => {
-      res.status(500).send(err);
+      return res.status(409).send({code: 409, type:'title', title: 'Titre existant', message: 'Veuillez modifier le champ \"titre\" car celui-ci existe déjà.'});
     });
   }
 
