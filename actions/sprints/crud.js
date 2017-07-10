@@ -88,7 +88,7 @@ module.exports = (api) => {
     Sprint
     .findAll()
     .then((sprints) => {
-      if (tasks.lenght === 0) {
+      if (sprints.lenght === 0) {
         res.status(204).send(sprints);
       }
       res.status(200).send(sprints);
