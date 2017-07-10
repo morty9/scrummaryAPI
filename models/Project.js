@@ -8,6 +8,7 @@ module.exports = (api) => {
       primaryKey: true
     },
     title: Sequelize.STRING,
+    status: Sequelize.BOOLEAN,
     id_creator : Sequelize.INTEGER,
     id_members: Sequelize.ARRAY(Sequelize.INTEGER),
     id_sprint: Sequelize.ARRAY(Sequelize.INTEGER)
