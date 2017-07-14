@@ -7,6 +7,7 @@ module.exports = (api) => {
       autoIncrement: true,
       primaryKey: true
     },
+    title: Sequelize.STRING,
     beginningDate: Sequelize.DATE,
     endDate: Sequelize.DATE,
     id_creator : Sequelize.INTEGER,

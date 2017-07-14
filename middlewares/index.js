@@ -11,7 +11,6 @@ module.exports = (api) => {
 		ensureAuthenticated: require('./Auth/ensureAuthenticated')(api),
 		ensureProjectName: require('./Project/ensureProjectName')(api),
 		ensureTaskCategory: require('./Task/ensureTaskCategory')(api),
-		ensureTaskColor: require('./Task/ensureTaskColor')(api),
 		ensureTaskDifficulty: require('./Task/ensureTaskDifficulty')(api),
 		ensureTaskDuration: require('./Task/ensureTaskDuration')(api),
 		ensureTaskMember: require('./Task/ensureTaskMember')(api),
