@@ -17,13 +17,12 @@ module.exports = (api) => {
     api.middlewares.ensureTaskDuration,
 		api.middlewares.ensureTaskPriority,
 		api.middlewares.ensureTaskMember,
-		api.middlewares.ensureTaskColor,
     api.middlewares.ensureTaskCategory,
   	api.actions.tasks.create);
 
   router.put('/:id',
   	api.middlewares.bodyParser.json(),
-    api.middlewares.ensureAuthenticated,
+    //api.middlewares.ensureAuthenticated,
   	api.actions.tasks.update);
 
   //router.put('/name/:id/',
