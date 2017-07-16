@@ -8,6 +8,7 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let project = Project.build(req.body);
+    project.id_creator = req.user;
     project
     .save()
     .then((project) => {
