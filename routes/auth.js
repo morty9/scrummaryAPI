@@ -5,7 +5,7 @@ module.exports = (api) => {
     api.middlewares.bodyParser.json(),
     api.actions.auth.login);
 
-  router.post('/logout',
+  router.delete('/logout/:id',
     api.middlewares.ensureAuthenticated,
     api.actions.auth.logout);
 

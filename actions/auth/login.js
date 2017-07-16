@@ -44,7 +44,8 @@ module.exports = (api) => {
                     return res.status(200).send({
                         "token": encryptedToken,
                         "creationDate": Date.now(),
-                        "userId": userId
+                        "userId": userId,
+                        "tokenId": token.id
                     });
                 }
             );

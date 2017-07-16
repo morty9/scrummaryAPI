@@ -1,11 +1,13 @@
 module.exports = (api) => {
-    const AuthToken = api.models.AuthToken;
+    const Token = api.models.Token;
 
     /// Logout (Get)
     /// Remove the current token for logged in user
     return function logout(req, res, next) {
-        AuthToken.destroy(
-            { where: { id: req.tokenId }
+        let tokId = req.params.id;
+        console.log("TOKID: ", tokId);
+        Token.destroy(
+            { where: { id: tokId }
         }).then((destroyedRowsCount) => {
             if(destroyedRowsCount > 0){
                 res.status(201).send("Succesfully logged out");
@@ -17,3 +19,20 @@ module.exports = (api) => {
         });
     };
 };
+
+/*  function remove(req, res, next) {
+    let projectId = req.params.id ? req.params.id : req.id_project;
+    Project
+    .destroy({
+      where : { id : projectId }
+    })
+    .then((removed) => {
+      if (!removed) {
+        res.status(404).send('project.not.found');
+      }
+      res.status(201).send('project.removed');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+  }*/
