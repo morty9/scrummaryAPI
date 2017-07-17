@@ -18,8 +18,8 @@ module.exports = (api) => {
 		//api.middlewares.ensureAuthenticated,
 		api.actions.sprints.update);
 
-	router.delete('/:id',
-		api.middlewares.ensureAuthenticated,
+	router.delete('/:id_sprint/:id_project',
+		//api.middlewares.ensureAuthenticated,
 		api.actions.sprints.remove);
 
 	return router;
