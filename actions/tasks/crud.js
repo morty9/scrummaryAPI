@@ -2,6 +2,7 @@ module.exports = (api) => {
 
   const Task = api.models.Task;
   const User = api.models.User;
+  const Sprint = api.models.Sprint;
 
   //*//
   //Create a new task
@@ -14,7 +15,7 @@ module.exports = (api) => {
       res.status(201).send(task);
     })
     .catch((err) => {
-      return res.status(409).send({code: 409, type:'title', title: 'Titre existant', message: 'Veuillez modifier le champ \"titre\" car celui-ci existe déjà.'});
+      res.status(409).send({code: 409, type:'title', title: 'Titre existant', message: 'Veuillez modifier le champ \"titre\" car celui-ci existe déjà.'});
     });
   }
 
@@ -30,7 +31,7 @@ module.exports = (api) => {
           .findById(req.body.id_members[count])
           .then((user) => {
             if (!user) {
-              res.status(404).send('user.not.found');
+              res.status(404).send({code: 404, type:'empty', title: 'Utilisateur inexistant', message: 'Cet utilisateur n\'existe pas'});
               userExist = false;
             }
           })
@@ -48,7 +49,7 @@ module.exports = (api) => {
       })
       .then((isUpdated) => {
         if (!isUpdated) {
-          res.status(404).send('task.not.found');
+          res.status(404).send({code: 404, type:'empty', title: 'Tâche inexistante', message: 'Cette tâche n\'existe pas'});
         }
         res.status(201).send('task.updated');
       })
@@ -66,7 +67,7 @@ module.exports = (api) => {
     .findById(req.params.id)
     .then((task) => {
       if (!task) {
-        res.status(404).send('task.not.found');
+        res.status(404).send({code: 404, type:'empty', title: 'Tâche inexistante', message: 'Cette tâche n\'existe pas'});
       }
       res.status(200).send(task);
     })
@@ -96,20 +97,44 @@ module.exports = (api) => {
   //Remove task
   //*//
   function remove(req, res, next) {
-    let taskId = req.params.id ? req.params.id : req.id_task;
-    Task
-    .destroy({
-      where : { id : taskId }
-    })
-    .then((removed) => {
-      if (!removed) {
-        res.status(404).send('task.not.found');
+    let taskId = req.params.id_task;
+    let sprintId = req.params.id_sprint;
+
+    Sprint
+    .findById(sprintId)
+    .then((sprint) => {
+      if (!sprint) {
+        res.status(404).send('sprint.not.found');
       }
-      res.status(201).send('task.removed');
+      removeTaskIdFromSprint(sprintId, sprint.id_listTasks, taskId);
+
+      Task
+      .destroy({
+        where : { id : taskId }
+      })
+      .then((removed) => {
+        if (!removed) {
+          res.status(404).send({code: 404, type:'empty', title: 'Tâche inexistante', message: 'Cette tâche n\'existe pas'});
+        }
+        res.status(201).send('task.removed');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
     })
     .catch((err) => {
       res.status(500).send(err);
-    });
+    })
+  }
+
+  function removeTaskIdFromSprint(id_sprint, id_listTasks, id_task) {
+    let newArray = [];
+    for (let i = 0; i < id_listTasks.length; i++) {
+      if (id_listTasks[i] != id_task) {
+        newArray.push(id_listTasks[i]);
+      }
+    }
+    Sprint.update({id_listTasks : newArray}, {where : {id : id_sprint}});
   }
 
   //*//

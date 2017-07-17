@@ -2,20 +2,27 @@ module.exports = (api) => {
 
   const User = api.models.User;
   const Project = api.models.Project;
+  const Sprint = api.models.Sprint;
+  const Task = api.models.Task;
 
   //*//
   //Create a new project
   //*//
   function create(req, res, next) {
     let project = Project.build(req.body);
-    project.id_creator = req.user;
+    //project.id_creator = req.user;
+    project.id_creator = 1;
     project
     .save()
     .then((project) => {
+      if (!project) {
+        res.status(409).send('error.creation.project');
+      }
       res.status(201).send(project);
     })
     .catch((err) => {
-      res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
+      res.status(500).send(err);
+      //res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
     });
   }
 
@@ -102,19 +109,60 @@ module.exports = (api) => {
   //*//
   function remove(req, res, next) {
     let projectId = req.params.id ? req.params.id : req.id_project;
+
     Project
-    .destroy({
-      where : { id : projectId }
+    .findOne({
+      where :
+        { id : projectId }
     })
-    .then((removed) => {
-      if (!removed) {
-        res.status(404).send('project.not.found');
+    .then((project) => {
+      if (!project) {
+        res.status(404).send('user.not.found');
       }
-      res.status(201).send('project.removed');
+      removeSprintsFromProject(project.id_sprint, project.id);
+
+      Project
+      .destroy({
+        where : { id : projectId }
+      })
+      .then((removed) => {
+        if (!removed) {
+          res.status(404).send('project.not.found');
+        }
+        res.status(201).send('project.removed');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
     })
     .catch((err) => {
       res.status(500).send(err);
-    });
+    })
+
+  }
+
+  function removeSprintsFromProject(id_listSprints, id_project) {
+    for (let i = 0; i < id_listSprints.length; i++) {
+      let sprintId = id_listSprints[i];
+
+      Sprint
+      .findById(sprintId)
+      .then((sprint) => {
+        if (!sprint) {
+          res.status(404).send('sprint.not.found');
+        }
+
+        for (let i = 0; i < sprint.id_listTasks.length ; i++) {
+          Task.destroy({where : {id : sprint.id_listTasks[i]}});
+        }
+
+        Sprint.destroy({where : {id : sprintId}});
+
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+    }
   }
 
   //**//
@@ -126,9 +174,9 @@ module.exports = (api) => {
       where :
         { title : req.params.name }
     })
-    .then((user) => {
-      if (!user) {
-        res.status(404).send('user.not.found');
+    .then((project) => {
+      if (!project) {
+        res.status(404).send('project.not.found');
       }
       res.status(200).send(user);
     })

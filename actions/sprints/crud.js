@@ -2,6 +2,8 @@ module.exports = (api) => {
 
   const User = api.models.User;
   const Sprint = api.models.Sprint;
+  const Project = api.models.Project;
+  const Task = api.models.Task;
 
   //*//
   //Create a new sprint
@@ -102,20 +104,71 @@ module.exports = (api) => {
   //Remove sprint
   //*//
   function remove(req, res, next) {
-    let sprintId = req.params.id ? req.params.id : req.id_sprint;
+    console.log('Hello');
+    let sprintId = req.params.id_sprint
+    let projectId = req.params.id_project;
+
     Sprint
-    .destroy({
-      where : { id : sprintId }
-    })
-    .then((removed) => {
-      if (!removed) {
+    .findById(sprintId)
+    .then((sprint) => {
+      if (!sprint) {
         res.status(404).send('sprint.not.found');
       }
-      res.status(201).send('sprint.removed');
+      removeTasksFromSprint(sprint.id_listTasks);
+
+      Project
+      .findById(projectId)
+      .then((project) => {
+        if (!project) {
+          res.status(404).send('project.not.found');
+        }
+
+        removeSprintIdFromProject(project.id, project.id_sprint, sprintId);
+
+        Sprint
+        .destroy({
+          where : { id : sprintId }
+        })
+        .then((removed) => {
+          console.log(removed);
+          if (!removed) {
+            res.status(404).send({code: 404, type:'empty', title: 'Sprint inexistant', message: 'Ce sprint n\'existe pas'});
+          }
+
+          res.status(201).send('sprint.removed');
+
+        })
+        .catch((err) => {
+          res.status(500).send(err);
+        });
+
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
+
     })
     .catch((err) => {
       res.status(500).send(err);
     });
+  }
+
+  function removeTasksFromSprint(id_listTasks) {
+    for (let i = 0; i < id_listTasks.length ; i++) {
+      console.log(id_listTasks[i]);
+      let taskId = id_listTasks[i];
+      Task.destroy({where : {id : id_listTasks[i]}});
+    }
+  }
+
+  function removeSprintIdFromProject(id_project, id_listSprints, id_sprint) {
+    let newArray = [];
+    for (let i = 0; i < id_listSprints.length; i++) {
+      if (id_listSprints[i] != id_sprint) {
+        newArray.push(id_listSprints[i]);
+      }
+    }
+    Project.update({id_sprint : newArray}, {where : {id : id_project}});
   }
 
   return {

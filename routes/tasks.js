@@ -29,8 +29,8 @@ module.exports = (api) => {
   //  api.middlewares.bodyParser.json(),
   //  api.actions.tasks.assignMembers);
 
-  router.delete('/:id',
-    api.middlewares.ensureAuthenticated,
+  router.delete('/:id_task/:id_sprint',
+    //api.middlewares.ensureAuthenticated,
   	api.actions.tasks.remove);
 
   return router;
