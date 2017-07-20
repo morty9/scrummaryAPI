@@ -86,37 +86,49 @@ module.exports = (api) => {
   function remove(req, res, next) {
     let userId = req.params.id_userToDelete;
     let newCreator = req.params.id_newCreator;
+    let newMembers = [];
 
-    console.log(userId);
-    console.log(newCreator);
-
-    User
-    .destroy({
-      where : { id : userId }
-    })
-    .then((data) => {
-      if (!data) {
-        res.status(404).send('user.not.found');
+    Project
+    .findAll()
+    .then((project) => {
+      if (!project) {
+        res.status(404).send('project.not.found');
       }
-      res.status(200).send('user.removed');
 
-      Project
-      .findAll()
-      .then((project) => {
-        if (!project) {
-          res.status(404).send('project.not.found');
-        }
+      for (let i = 0; i < project.length ; i++) {
+        // if (project[i].id_creator == userId) {
+        //   console.log(project[i].id_creator);
+        //   //Project.update({id_creator : newCreator}, {where : {id : project[i].id}});
+        // }
 
-        for (let i = 0; i < project.length ; i++) {
-          if (project[i].id_creator == userId) {
-            Project.update({id_creator : newCreator}, {where : {id : project[i].id}});
-          }
+        //console.log(project[i].id_members);
+        for (let j = 0; j <= project[i].id_members ; j++) {
+          console.log("is in");
+          console.log(project[i].id_members[j]);
+          // if (project[i].id_members[j] != userId) {
+          //   newMembers.push(project[i].id_members[j]);
+          // }
+          //console.log(newMembers);
         }
+        //Project.update({id_members : newMembers}, {where : {id : project[i].id}});
+      }
+
+      /*User
+      .destroy({
+        where : { id : userId }
+      })
+      .then((data) => {
+        if (!data) {
+          res.status(404).send('user.not.found');
+        }
+        res.status(200).send('user.removed');
+
 
       })
       .catch((err) => {
         res.status(500).send(err);
-      })
+      })*/
+
     })
     .catch((err) => {
       res.status(500).send(err);
