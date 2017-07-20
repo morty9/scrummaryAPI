@@ -2,13 +2,14 @@ const sha1 = require('sha1');
 
 module.exports = (api) => {
   const User = api.models.User;
+  const Project = api.models.Project;
 
   //*//
   //Create new User
   //*//
   function create(req, res, next) {
     let user = User.build(req.body);
-    user.password = sha1(user.password);
+    // user.password = sha1(user.password);
     user
     .save()
     .then((user) => {
@@ -70,7 +71,7 @@ module.exports = (api) => {
     User
     .findAll()
     .then((users) => {
-      if (users.lenght === 0) {
+      if (users.length === 0) {
         res.status(204).send(users);
       }
       res.status(200).send(users);
@@ -83,7 +84,11 @@ module.exports = (api) => {
   //Remove user
   //*//
   function remove(req, res, next) {
-    let userId = req.params.id ? req.params.id : req.id_user;
+    let userId = req.params.id_userToDelete;
+    let newCreator = req.params.id_newCreator;
+
+    console.log(userId);
+    console.log(newCreator);
 
     User
     .destroy({
@@ -94,11 +99,31 @@ module.exports = (api) => {
         res.status(404).send('user.not.found');
       }
       res.status(200).send('user.removed');
+
+      Project
+      .findAll()
+      .then((project) => {
+        if (!project) {
+          res.status(404).send('project.not.found');
+        }
+
+        for (let i = 0; i < project.length ; i++) {
+          if (project[i].id_creator == userId) {
+            Project.update({id_creator : newCreator}, {where : {id : project[i].id}});
+          }
+        }
+
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
     })
     .catch((err) => {
       res.status(500).send(err);
     })
   }
+
+
 
   //*//
   //Find user by name
