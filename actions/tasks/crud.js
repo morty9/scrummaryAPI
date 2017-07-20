@@ -51,7 +51,7 @@ module.exports = (api) => {
         if (!isUpdated) {
           res.status(404).send({code: 404, type:'empty', title: 'Tâche inexistante', message: 'Cette tâche n\'existe pas'});
         }
-        res.status(201).send('task.updated');
+        res.status(201).send({code: 201, type:'success', title: 'Tâche modifiée', message: 'Cette tâche a été modifié avec succès'});
       })
       .catch((err) => {
         res.status(500).send(err);
