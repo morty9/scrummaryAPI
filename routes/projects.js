@@ -19,7 +19,7 @@ module.exports = (api) => {
 
 	router.put('/:id',
 		api.middlewares.bodyParser.json(),
-		api.middlewares.ensureAuthenticated,
+		//api.middlewares.ensureAuthenticated,
 		api.actions.projects.update);
 
 	router.delete('/:id',
