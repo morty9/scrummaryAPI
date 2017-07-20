@@ -36,8 +36,6 @@ module.exports = (api) => {
       let count = 0;
 
       while (count < req.body.id_members.length) {
-        console.log('is in while');
-        //console.log(req.boby.id_members[count]);
           User
           .findById(req.body.id_members[count])
           .then((user) => {

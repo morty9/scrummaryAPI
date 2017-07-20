@@ -3,7 +3,7 @@ const sha1 = require('sha1');
 module.exports = (api) => {
   const User = api.models.User;
   const Project = api.models.Project;
-
+  let newCreator;
   //*//
   //Create new User
   //*//
@@ -85,35 +85,49 @@ module.exports = (api) => {
   //*//
   function remove(req, res, next) {
     let userId = req.params.id_userToDelete;
-    let newCreator = req.params.id_newCreator;
-    let newMembers = [];
+    newCreator = req.params.id_newCreator;
+    let isCreator = false;
 
     Project
     .findAll()
-    .then((project) => {
-      if (!project) {
+    .then((projects) => {
+      if (!projects) {
         res.status(404).send('project.not.found');
       }
 
-      for (let i = 0; i < project.length ; i++) {
-        // if (project[i].id_creator == userId) {
-        //   console.log(project[i].id_creator);
-        //   //Project.update({id_creator : newCreator}, {where : {id : project[i].id}});
-        // }
-
-        //console.log(project[i].id_members);
-        for (let j = 0; j <= project[i].id_members ; j++) {
-          console.log("is in");
-          console.log(project[i].id_members[j]);
-          // if (project[i].id_members[j] != userId) {
-          //   newMembers.push(project[i].id_members[j]);
-          // }
-          //console.log(newMembers);
+      for (let i = 0; i < projects.length ; i++) {
+        console.log(projects[i]);
+        if (projects[i].id_creator == userId) {
+          isCreator = true;
         }
-        //Project.update({id_members : newMembers}, {where : {id : project[i].id}});
+        //removeUserInProject(projects[i], userId, isCreator);
+
+        for (let j = 0; j <= projects[i].id_members.length ; j++) {
+          console.log("id_members: ",projects[i].id_members[j]);
+          if (projects[i].id_members[j] == userId) {
+            for (let k = 0; k < projects[i].id_members.length ; k++) {
+              console.log(projects[i].id_members);
+              console.log(projects[i].id_members[k]);
+              if (projects[i].id_members[k] != userId) {
+                newMembers.push(projects[i].id_members[k]);
+              }
+            }
+          }
+        }
       }
 
-      /*User
+      if (isCreator == true) {
+        Project.update({id_creator : newCreator, id_members : newMembers}, {where : {id : projects.id}});
+        console.log('update with creator done');
+        isCreator = false;
+      } else {
+        Project.update({id_members : newMembers}, {where : {id : projects.id}});
+        console.log('update done');
+      }
+
+      console.log("reset members done");
+
+      User
       .destroy({
         where : { id : userId }
       })
@@ -122,20 +136,39 @@ module.exports = (api) => {
           res.status(404).send('user.not.found');
         }
         res.status(200).send('user.removed');
-
-
       })
       .catch((err) => {
         res.status(500).send(err);
-      })*/
-
+      })
     })
     .catch((err) => {
       res.status(500).send(err);
     })
   }
 
+  function removeUserInProject(projects, userId, isCreator) {
+    let newMembers = [];
 
+    for (let i = 0; i < projects.id_members.length ; i++) {
+      if (projects.id_members[i] == userId) {
+        for (let j = 0; j < projects.id_members.length ; j++) {
+          if (projects.id_members[j] != userId) {
+            newMembers.push(projects.id_members[j]);
+          }
+        }
+
+        if (isCreator == true) {
+          Project.update({id_creator : newCreator, id_members : newMembers}, {where : {id : projects.id}});
+          console.log('update with creator done');
+          isCreator = false;
+        } else {
+          Project.update({id_members : newMembers}, {where : {id : projects.id}});
+          console.log('update done');
+        }
+
+      }
+    }
+  }
 
   //*//
   //Find user by name
