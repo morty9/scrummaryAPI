@@ -10,8 +10,9 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let project = Project.build(req.body);
-    //project.id_creator = req.user;
-    project.id_creator = 1;
+    console.log(req.userId);
+    project.id_creator = req.user;
+    //project.id_creator = 1;
     project
     .save()
     .then((project) => {
@@ -117,7 +118,10 @@ module.exports = (api) => {
       if (!project) {
         res.status(404).send('user.not.found');
       }
-      removeSprintsFromProject(project.id_sprint, project.id);
+
+      if (project.id_sprint != null) {
+        removeSprintsFromProject(project.id_sprint, project.id);
+      }
 
       Project
       .destroy({
