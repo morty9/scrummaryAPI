@@ -3,7 +3,8 @@ const sha1 = require('sha1');
 module.exports = (api) => {
   const User = api.models.User;
   const Project = api.models.Project;
-  let newCreator;
+  const Token = api.models.Token;
+
   //*//
   //Create new User
   //*//
@@ -84,11 +85,11 @@ module.exports = (api) => {
   //Remove user
   //*//
   function remove(req, res, next) {
-    let userId = req.params.id_userToDelete;
-    newCreator = req.params.id_newCreator;
-    let isCreator = false;
+    let userId = req.params.id_user;
+    let projectId;
+    let newMembers = [];
 
-    Project
+    /*Project
     .findAll()
     .then((projects) => {
       if (!projects) {
@@ -96,56 +97,47 @@ module.exports = (api) => {
       }
 
       for (let i = 0; i < projects.length ; i++) {
-        console.log(projects[i]);
-        if (projects[i].id_creator == userId) {
-          isCreator = true;
-        }
-        //removeUserInProject(projects[i], userId, isCreator);
+        projectId = projects[i].id;
+        newMembers = removeUserInProject(projects[i], userId);
+        console.log("new members", newMembers);
+      }
 
-        for (let j = 0; j <= projects[i].id_members.length ; j++) {
-          console.log("id_members: ",projects[i].id_members[j]);
-          if (projects[i].id_members[j] == userId) {
-            for (let k = 0; k < projects[i].id_members.length ; k++) {
-              console.log(projects[i].id_members);
-              console.log(projects[i].id_members[k]);
-              if (projects[i].id_members[k] != userId) {
-                newMembers.push(projects[i].id_members[k]);
-              }
-            }
+      Project
+      .update({id_members : newMembers}, {where : {id : projectId}})
+      .then((updated) => {
+        if (!updated) {
+          res.status(404).send('error.with.update');
+        }*/
+
+        User
+        .destroy({
+          where : { id : userId }
+        })
+        .then((data) => {
+          if (!data) {
+            res.status(404).send('user.not.found');
           }
-        }
-      }
+          res.status(200).send('user.removed');
+        })
+        .catch((err) => {
+          res.status(500).send(err);
+        })
 
-      if (isCreator == true) {
-        Project.update({id_creator : newCreator, id_members : newMembers}, {where : {id : projects.id}});
-        console.log('update with creator done');
-        isCreator = false;
-      } else {
-        Project.update({id_members : newMembers}, {where : {id : projects.id}});
-        console.log('update done');
-      }
-
-      console.log("reset members done");
-
-      User
-      .destroy({
-        where : { id : userId }
-      })
-      .then((data) => {
-        if (!data) {
-          res.status(404).send('user.not.found');
-        }
-        res.status(200).send('user.removed');
-      })
+      /*})
       .catch((err) => {
         res.status(500).send(err);
       })
+
     })
     .catch((err) => {
       res.status(500).send(err);
-    })
+    })*/
   }
 
+  /*
+  * Return -> ARRAY
+  * Delete user to remove in id_members array
+  */
   function removeUserInProject(projects, userId, isCreator) {
     let newMembers = [];
 
@@ -156,18 +148,10 @@ module.exports = (api) => {
             newMembers.push(projects.id_members[j]);
           }
         }
-
-        if (isCreator == true) {
-          Project.update({id_creator : newCreator, id_members : newMembers}, {where : {id : projects.id}});
-          console.log('update with creator done');
-          isCreator = false;
-        } else {
-          Project.update({id_members : newMembers}, {where : {id : projects.id}});
-          console.log('update done');
-        }
-
       }
     }
+
+    return newMembers;
   }
 
   //*//

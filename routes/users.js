@@ -24,8 +24,8 @@ module.exports = (api) => {
 		api.middlewares.ensureAuthenticated,
 		api.actions.users.update);
 
-	router.delete('/:id_userToDelete/:id_newCreator',
-		// api.middlewares.ensureAuthenticated,
+	router.delete('/:id_user',
+		api.middlewares.ensureAuthenticated,
 		api.actions.users.remove);
 
 	return router;

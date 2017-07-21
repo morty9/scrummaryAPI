@@ -17,15 +17,15 @@ module.exports = (api) => {
             if (err) {
                 return res.status(401).send({code:401, type: 'invalid.token', title:'Session expirée', message:'Votre session a expirée, veuillez vous reconnecter.'});
             }
-
+            console.log(decryptedToken);
             Token
             .findById(decryptedToken.tokenId)
             .then((token) => {
               if (!token) {
                 return res.status(401).send({code:401, type: 'invalid.token', title:'Session expirée', message:'Votre session a expirée, veuillez vous reconnecter.'});
               }
-
-              req.userId = token.userId;
+              
+              req.user = token.id_user;
               return next();
             })
             .catch((err) => {
