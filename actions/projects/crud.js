@@ -22,8 +22,8 @@ module.exports = (api) => {
       res.status(201).send(project);
     })
     .catch((err) => {
-      res.status(500).send(err);
-      //res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
+      //res.status(500).send(err);
+      res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
     });
   }
 

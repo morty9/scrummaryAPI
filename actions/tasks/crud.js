@@ -9,6 +9,7 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let task = Task.build(req.body);
+    task.id_creator = req.user;
     task
     .save()
     .then((task) => {

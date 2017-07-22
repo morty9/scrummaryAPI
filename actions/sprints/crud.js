@@ -10,7 +10,7 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let sprint = Sprint.build(req.body);
-    sprint.id_creator = req.id_user;
+    sprint.id_creator = req.user;
     sprint
     .save()
     .then((sprint) => {
