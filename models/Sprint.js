@@ -11,8 +11,7 @@ module.exports = (api) => {
     beginningDate: Sequelize.DATE,
     endDate: Sequelize.DATE,
     id_creator : Sequelize.INTEGER,
-    id_listTasks: Sequelize.ARRAY(Sequelize.INTEGER),
-    id_members :  Sequelize.ARRAY(Sequelize.INTEGER)
+    id_listTasks: Sequelize.ARRAY(Sequelize.INTEGER)
   }, {
     timestamps: true,
     tableName: 'sprints'
