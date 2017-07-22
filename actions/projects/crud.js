@@ -107,7 +107,7 @@ module.exports = (api) => {
   //Remove project
   //*//
   function remove(req, res, next) {
-    let projectId = req.params.id ? req.params.id : req.id_project;
+    let projectId = req.params.id;
 
     Project
     .findOne({

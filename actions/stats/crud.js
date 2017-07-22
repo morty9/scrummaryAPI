@@ -9,8 +9,9 @@ module.exports = (api) => {
   //Create a new diagram
   //*//
   function create(req, res, next) {
-    Stat
-    .create()
+    let stats = Stat.build(req.body);
+    stats
+    .save()
     .then((stat) => {
       if (!stat) {
         res.status(409).send('diagram.already.exists');

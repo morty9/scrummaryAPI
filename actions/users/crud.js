@@ -86,72 +86,20 @@ module.exports = (api) => {
   //*//
   function remove(req, res, next) {
     let userId = req.params.id_user;
-    let projectId;
-    let newMembers = [];
-
-    /*Project
-    .findAll()
-    .then((projects) => {
-      if (!projects) {
-        res.status(404).send('project.not.found');
-      }
-
-      for (let i = 0; i < projects.length ; i++) {
-        projectId = projects[i].id;
-        newMembers = removeUserInProject(projects[i], userId);
-        console.log("new members", newMembers);
-      }
-
-      Project
-      .update({id_members : newMembers}, {where : {id : projectId}})
-      .then((updated) => {
-        if (!updated) {
-          res.status(404).send('error.with.update');
-        }*/
-
-        User
-        .destroy({
-          where : { id : userId }
-        })
-        .then((data) => {
-          if (!data) {
-            res.status(404).send('user.not.found');
-          }
-          res.status(200).send('user.removed');
-        })
-        .catch((err) => {
-          res.status(500).send(err);
-        })
-
-      /*})
+    
+      User
+      .destroy({
+        where : { id : userId }
+      })
+      .then((data) => {
+        if (!data) {
+          res.status(404).send('user.not.found');
+        }
+        res.status(200).send('user.removed');
+      })
       .catch((err) => {
         res.status(500).send(err);
       })
-
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    })*/
-  }
-
-  /*
-  * Return -> ARRAY
-  * Delete user to remove in id_members array
-  */
-  function removeUserInProject(projects, userId, isCreator) {
-    let newMembers = [];
-
-    for (let i = 0; i < projects.id_members.length ; i++) {
-      if (projects.id_members[i] == userId) {
-        for (let j = 0; j < projects.id_members.length ; j++) {
-          if (projects.id_members[j] != userId) {
-            newMembers.push(projects.id_members[j]);
-          }
-        }
-      }
-    }
-
-    return newMembers;
   }
 
   //*//
