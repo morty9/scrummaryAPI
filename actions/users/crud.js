@@ -5,9 +5,13 @@ module.exports = (api) => {
   const Project = api.models.Project;
   const Token = api.models.Token;
 
-  //*//
-  //Create new User
-  //*//
+  /**
+  * \fn create(req, res, next)
+  * \brief Create new User
+  * \details Create new User in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     let user = User.build(req.body);
     // user.password = sha1(user.password);
@@ -25,9 +29,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Update User
-  //*//
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a User
+  * \details Update a User in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
     let userId = req.params.id ? req.params.id : req.id_user;
 
@@ -48,9 +56,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Find one user by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find one user by id
+  * \details Find one user by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     User
     .findById(req.params.id)
@@ -65,9 +77,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Find all users
-  //*//
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all users
+  * \details Find all users in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     User
     .findAll()
@@ -81,12 +97,16 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Remove user
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove a user
+  * \details Remove a user in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
     let userId = req.params.id_user;
-    
+
       User
       .destroy({
         where : { id : userId }
@@ -102,9 +122,13 @@ module.exports = (api) => {
       })
   }
 
-  //*//
-  //Find user by name
-  //*//
+  /**
+  * \fn findByName(req, res, next)
+  * \brief Find a user by name
+  * \details Find a user by name in the database
+  *
+  * \param req, res, next
+  */
   function findByName(req, res, next) {
     User
     .findOne({

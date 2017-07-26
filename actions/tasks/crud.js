@@ -4,9 +4,14 @@ module.exports = (api) => {
   const User = api.models.User;
   const Sprint = api.models.Sprint;
 
-  //*//
-  //Create a new task
-  //*//
+
+  /**
+  * \fn create(req, res, next)
+  * \brief Create a new task
+  * \details Create a new task in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     let task = Task.build(req.body);
     task.id_creator = req.user;
@@ -20,30 +25,14 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Update a task
-  //*//
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a new task
+  * \details Update a new task in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
-    /*let userExist = true;
-    if (req.body.id_members) {
-      let count = 0;
-      while (count < req.body.id_members) {
-          User
-          .findById(req.body.id_members[count])
-          .then((user) => {
-            if (!user) {
-              res.status(404).send({code: 404, type:'empty', title: 'Utilisateur inexistant', message: 'Cet utilisateur n\'existe pas'});
-              userExist = false;
-            }
-          })
-          .catch((err) => {
-            res.status(500).send(err);
-          });
-          count+=1;
-      }
-    }*/
-
-    //if (userExist) {
       Task
       .update(req.body, {
         where : { id : req.params.id }
@@ -57,12 +46,15 @@ module.exports = (api) => {
       .catch((err) => {
         res.status(500).send(err);
       })
-    //}
   }
 
-  //*//
-  //Find task by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find task by id
+  * \details Find task by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     Task
     .findById(req.params.id)
@@ -77,9 +69,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Find all tasks
-  //*//
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all tasks
+  * \details Find all tasks in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     Task
     .findAll()
@@ -94,9 +90,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Remove task
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove a task
+  * \details Remove a task in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
     let taskId = req.params.id_task;
     let sprintId = req.params.id_sprint;
@@ -128,6 +128,13 @@ module.exports = (api) => {
     })
   }
 
+  /**
+  * \fn removeTaskIdFromSprint(id_sprint, id_listTasks, id_task)
+  * \brief Remove task from a sprint
+  * \details Remove task from a sprint
+  *
+  * \param req, res, next
+  */
   function removeTaskIdFromSprint(id_sprint, id_listTasks, id_task) {
     let newArray = [];
     for (let i = 0; i < id_listTasks.length; i++) {
@@ -138,9 +145,13 @@ module.exports = (api) => {
     Sprint.update({id_listTasks : newArray}, {where : {id : id_sprint}});
   }
 
-  //*//
-  //Assign members to a task
-  //*//
+  /**
+  * \fn assignMembers(res, res, next)
+  * \brief Assign members to a task
+  * \details Assign members to a task
+  *
+  * \param req, res, next
+  */
   function assignMembers(res, res, next) {
     Task
     .findByIdAndUpdate(req.params.name, {

@@ -7,9 +7,15 @@ module.exports = (api) => {
     const User = api.models.User;
     const Token = api.models.Token;
 
-    /// Authenticate user and generate
-    /// a token for current user (POST)
-    /// --> Require middleware body-parser
+    /**
+    * \fn login(req, res, next)
+    * \brief log the user
+    * \details Check if the user exist and generate a token in the database
+    * for the current user
+    *
+    * \param req, res, next
+    * \return the result
+    */
     return function login(req, res, next) {
         let userId = 0;
         User.findOne({

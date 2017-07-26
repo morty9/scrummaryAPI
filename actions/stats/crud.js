@@ -5,9 +5,13 @@ module.exports = (api) => {
   const Task = api.models.Task;
   const Sprint = api.models.Sprint;
 
-  //*//
-  //Create a new diagram
-  //*//
+  /**
+  * \fn create(req, res, next)
+  * \brief Create a new stat for graph
+  * \details Create a new stat for graph in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     let stats = Stat.build(req.body);
     stats
@@ -22,9 +26,14 @@ module.exports = (api) => {
       res.status(500).send(err);
     });
   }
-  //*///
-  //Update a diagram
-  //*//
+
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a new stat for graph
+  * \details Update a new stat for graph in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
     let statId = req.params.id ? req.params.id : req.id_stat;
     Stat
@@ -41,9 +50,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Find one diagram by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find one stat by id
+  * \details Find one stat by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     Stat
     .findById(req.params.id)
@@ -58,9 +71,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Find all diagrams
-  //*//
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all stat
+  * \details Find all stat in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     Stat
     .findAll()
@@ -75,9 +92,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Remove diagram
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove a stat
+  * \details Remove a stat in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
     let statId = req.params.id ? req.params.id : req.id_stat;
     Stat

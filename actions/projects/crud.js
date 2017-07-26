@@ -5,9 +5,13 @@ module.exports = (api) => {
   const Sprint = api.models.Sprint;
   const Task = api.models.Task;
 
-  //*//
-  //Create a new project
-  //*//
+  /**
+  * \fn create(req, res, next)
+  * \brief Create a new project
+  * \details Create a new project in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     let project = Project.build(req.body);
     project.id_creator = req.user;
@@ -17,14 +21,17 @@ module.exports = (api) => {
       res.status(201).send(project);
     })
     .catch((err) => {
-      //res.status(500).send(err);
       res.status(409).send({code: 409, type:'title', title: 'Nom du projet', message: 'Veuillez modifier le champ \"nom du projet\" car celui-ci existe déjà.'});
     });
   }
 
-  //*//
-  //Update project
-  //*//
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a  project
+  * \details Update a  project in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
     let userExist = true;
 
@@ -64,9 +71,13 @@ module.exports = (api) => {
     }
   }
 
-  //*//
-  //Find project by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find project by id
+  * \details Find project by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     Project
     .findById(req.params.id)
@@ -81,9 +92,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Find all project
-  //*//
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all project
+  * \details Find all project in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     Project
     .findAll()
@@ -98,9 +113,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Remove project
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove a project
+  * \details Remove a project in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
     let projectId = req.params.id;
 
@@ -138,6 +157,14 @@ module.exports = (api) => {
 
   }
 
+  /**
+  * \fn removeSprintsFromProject(id_listSprints, id_project)
+  * \brief Remove sprints from a project
+  * \details Remove sprints from a project
+  *
+  * \param id_listSprints the list of sprints to remove
+  * \param id_project the project id which have to remove his sprints
+  */
   function removeSprintsFromProject(id_listSprints, id_project) {
     for (let i = 0; i < id_listSprints.length; i++) {
       let sprintId = id_listSprints[i];
@@ -162,9 +189,13 @@ module.exports = (api) => {
     }
   }
 
-  //**//
-  //Get project by name
-  //*//
+  /**
+  * \fn findByName(req, res, next)
+  * \brief Get project by name
+  * \details Get project by name
+  *
+  * \param req, res, next
+  */
   function findByName(req, res, next) {
     Project
     .findOne({
