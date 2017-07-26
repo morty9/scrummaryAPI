@@ -27,7 +27,7 @@ module.exports = (api) => {
                 userId = user.id;
                 return token.save();
             } else {
-                return res.status(401).send('invalid.credentials');
+                return res.status(401).send({code: 401, type:'invalid.credentials', title: 'Identifiants incorrect', message: 'Vos identifiants sont incorrect ou inexistant'});
             }
         }).then((token) => {
             jwt.sign({

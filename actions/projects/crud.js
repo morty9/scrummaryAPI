@@ -10,15 +10,10 @@ module.exports = (api) => {
   //*//
   function create(req, res, next) {
     let project = Project.build(req.body);
-    console.log(req.userId);
     project.id_creator = req.user;
-    //project.id_creator = 1;
     project
     .save()
     .then((project) => {
-      if (!project) {
-        res.status(409).send('error.creation.project');
-      }
       res.status(201).send(project);
     })
     .catch((err) => {
@@ -61,7 +56,7 @@ module.exports = (api) => {
         if (!isUpdated) {
           res.status(404).send('project.not.found');
         }
-        res.status(201).send('project.updated');
+        res.status(201).send({status : 'updated'});
       })
       .catch((err) => {
         res.status(500).send(err);

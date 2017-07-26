@@ -24,7 +24,7 @@ module.exports = (api) => {
   //Update a task
   //*//
   function update(req, res, next) {
-    let userExist = true;
+    /*let userExist = true;
     if (req.body.id_members) {
       let count = 0;
       while (count < req.body.id_members) {
@@ -41,9 +41,9 @@ module.exports = (api) => {
           });
           count+=1;
       }
-    }
+    }*/
 
-    if (userExist) {
+    //if (userExist) {
       Task
       .update(req.body, {
         where : { id : req.params.id }
@@ -57,7 +57,7 @@ module.exports = (api) => {
       .catch((err) => {
         res.status(500).send(err);
       })
-    }
+    //}
   }
 
   //*//
