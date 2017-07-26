@@ -14,7 +14,7 @@ module.exports = (api) => {
   */
   function create(req, res, next) {
     let user = User.build(req.body);
-    // user.password = sha1(user.password);
+    user.password = sha1(user.password);
     user
     .save()
     .then((user) => {
@@ -38,6 +38,7 @@ module.exports = (api) => {
   */
   function update(req, res, next) {
     let userId = req.params.id ? req.params.id : req.id_user;
+    req.body.password = sha1(req.body.password);
 
     User
     .update(req.body, {
@@ -70,6 +71,8 @@ module.exports = (api) => {
       if (!user) {
         res.status(404).send('user.not.found');
       }
+      user.password = sha1(user.password);
+      console.log(user.password);
       res.status(200).send(user);
     })
     .catch((err) => {

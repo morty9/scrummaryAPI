@@ -173,8 +173,10 @@ module.exports = (api) => {
       .findById(sprintId)
       .then((sprint) => {
 
-        for (let i = 0; i < sprint.id_listTasks.length ; i++) {
-          Task.destroy({where : {id : sprint.id_listTasks[i]}});
+        if (sprint.id_listTasks != null) {
+          for (let i = 0; i < sprint.id_listTasks.length ; i++) {
+            Task.destroy({where : {id : sprint.id_listTasks[i]}});
+          }
         }
 
         Sprint.destroy({where : {id : sprintId}});
