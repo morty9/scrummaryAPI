@@ -21,8 +21,7 @@ module.exports = (api) => {
         User.findOne({
             where: {
                 email: req.body.email,
-                //password: sha1(req.body.password)
-                password: req.body.password
+                password: sha1(req.body.password)
             }
         })
         .then((user) => {

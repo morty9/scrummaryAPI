@@ -130,7 +130,7 @@ module.exports = (api) => {
     })
     .then((project) => {
       if (!project) {
-        res.status(404).send('user.not.found');
+        res.status(404).send('project.not.found');
       }
 
       if (project.id_sprint != null) {
@@ -172,19 +172,18 @@ module.exports = (api) => {
       Sprint
       .findById(sprintId)
       .then((sprint) => {
-        if (!sprint) {
-          res.status(404).send('sprint.not.found');
-        }
 
-        for (let i = 0; i < sprint.id_listTasks.length ; i++) {
-          Task.destroy({where : {id : sprint.id_listTasks[i]}});
+        if (sprint.id_listTasks != null) {
+          for (let i = 0; i < sprint.id_listTasks.length ; i++) {
+            Task.destroy({where : {id : sprint.id_listTasks[i]}});
+          }
         }
 
         Sprint.destroy({where : {id : sprintId}});
 
       })
       .catch((err) => {
-        res.status(500).send(err);
+        console.log("Error");
       });
     }
   }
