@@ -1,11 +1,17 @@
 module.exports = (api) => {
     const Token = api.models.Token;
 
-    /// Logout (Get)
-    /// Remove the current token for logged in user
+
+    /**
+    * \fn login(req, res, next)
+    * \brief logout the user
+    * \details Check if the user exist and destroy his token in the database
+    *
+    * \param req, res, next
+    * \return the result
+    */
     return function logout(req, res, next) {
         let tokId = req.params.id;
-        console.log("TOKID: ", tokId);
         Token.destroy(
             { where: { id: tokId }
         }).then((destroyedRowsCount) => {
@@ -19,20 +25,3 @@ module.exports = (api) => {
         });
     };
 };
-
-/*  function remove(req, res, next) {
-    let projectId = req.params.id ? req.params.id : req.id_project;
-    Project
-    .destroy({
-      where : { id : projectId }
-    })
-    .then((removed) => {
-      if (!removed) {
-        res.status(404).send('project.not.found');
-      }
-      res.status(201).send('project.removed');
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-  }*/

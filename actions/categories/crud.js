@@ -1,9 +1,14 @@
 module.exports = (api) => {
   const Category = api.models.Category;
 
-  //*//
-  //Create a new category
-  //*//
+
+  /**
+  * \fn create(req, res, next)
+  * \brief Create a new category
+  * \details Create a new category in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     Category
     .create(req.body)
@@ -17,9 +22,14 @@ module.exports = (api) => {
       res.status(500).send(err);
     });
   }
-  //*//
-  //Update a category
-  //*//
+
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a category
+  * \details Update a category in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
     let categoryId = req.params.id ? req.params.id : req.id_category;
     Category
@@ -39,9 +49,13 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Find one category by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find one category by id
+  * \details Find one category by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     Category
     .findById(req.params.id)
@@ -56,9 +70,14 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Find all categories
-  //*//
+
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all categories
+  * \details Find all categories in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     Category
     .findAll()
@@ -73,9 +92,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Remove category
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove category
+  * \details Remove category in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
     let categoryId = req.params.id ? req.params.id : req.id_category;
     Category

@@ -5,9 +5,13 @@ module.exports = (api) => {
   const Project = api.models.Project;
   const Task = api.models.Task;
 
-  //*//
-  //Create a new sprint
-  //*//
+  /**
+  * \fn create(req, res, next)
+  * \brief Create a new sprint
+  * \details Create a new sprint in the database
+  *
+  * \param req, res, next
+  */
   function create(req, res, next) {
     let sprint = Sprint.build(req.body);
     sprint.id_creator = req.user;
@@ -24,9 +28,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Update a sprint
-  //*//
+  /**
+  * \fn update(req, res, next)
+  * \brief Update a sprint
+  * \details Update a sprint in the database
+  *
+  * \param req, res, next
+  */
   function update(req, res, next) {
     let userExist = true;
 
@@ -66,9 +74,13 @@ module.exports = (api) => {
     }
   }
 
-  //*//
-  //Find sprint by id
-  //*//
+  /**
+  * \fn findOne(req, res, next)
+  * \brief Find sprint by id
+  * \details Find sprint by id in the database
+  *
+  * \param req, res, next
+  */
   function findOne(req, res, next) {
     Sprint
     .findById(req.params.id)
@@ -83,9 +95,13 @@ module.exports = (api) => {
     });
   }
 
-  //*//
-  //Find all sprints
-  //*//
+  /**
+  * \fn findAll(req, res, next)
+  * \brief Find all sprints
+  * \details Find all sprints in the database
+  *
+  * \param req, res, next
+  */
   function findAll(req, res, next) {
     Sprint
     .findAll()
@@ -100,11 +116,14 @@ module.exports = (api) => {
     })
   }
 
-  //*//
-  //Remove sprint
-  //*//
+  /**
+  * \fn remove(req, res, next)
+  * \brief Remove sprint
+  * \details Remove sprint in the database
+  *
+  * \param req, res, next
+  */
   function remove(req, res, next) {
-    console.log('Hello');
     let sprintId = req.params.id_sprint
     let projectId = req.params.id_project;
 
@@ -133,7 +152,6 @@ module.exports = (api) => {
           where : { id : sprintId }
         })
         .then((removed) => {
-          console.log(removed);
           if (!removed) {
             res.status(404).send({code: 404, type:'empty', title: 'Sprint inexistant', message: 'Ce sprint n\'existe pas'});
           }
@@ -156,14 +174,29 @@ module.exports = (api) => {
     });
   }
 
+  /**
+  * \fn removeTasksFromSprint(id_listTasks)
+  * \brief Remove tasks from a sprint
+  * \details Remove tasks from a sprint
+  *
+  * \param id_listTasks the list of id's tasks
+  */
   function removeTasksFromSprint(id_listTasks) {
     for (let i = 0; i < id_listTasks.length ; i++) {
-      console.log(id_listTasks[i]);
       let taskId = id_listTasks[i];
       Task.destroy({where : {id : id_listTasks[i]}});
     }
   }
 
+  /**
+  * \fn removeSprintIdFromProject(id_project, id_listSprints, id_sprint)
+  * \brief Remove sprint from a project with tasks of the sprint
+  * \details Remove sprint from a project with tasks of the sprint
+  *
+  * \param id_project id of the project
+  * \param id_listSprints list of id's sprints
+  * \param id_sprint id of the sprint
+  */
   function removeSprintIdFromProject(id_project, id_listSprints, id_sprint) {
     let newArray = [];
     for (let i = 0; i < id_listSprints.length; i++) {
