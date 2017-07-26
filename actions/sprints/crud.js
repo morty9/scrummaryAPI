@@ -15,7 +15,7 @@ module.exports = (api) => {
     .save()
     .then((sprint) => {
       if (!sprint) {
-        res.status(409).send('sprint.already.exist');
+        res.status(409).send("sprint.already.exist");
       }
       res.status(201).send(sprint);
     })
@@ -114,7 +114,10 @@ module.exports = (api) => {
       if (!sprint) {
         res.status(404).send('sprint.not.found');
       }
-      removeTasksFromSprint(sprint.id_listTasks);
+
+      if (sprint.id_listTasks != null) {
+          removeTasksFromSprint(sprint.id_listTasks);
+      }
 
       Project
       .findById(projectId)
