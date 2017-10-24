@@ -4,6 +4,7 @@
 		"sql" : {
 			"host" : "postgres://localhost:5432",
 			"name" : "scrummary_db",
+			"password": "postgres"
 			"url": "postgres://localhost:5432/scrummary_db"
 		}
 	},
