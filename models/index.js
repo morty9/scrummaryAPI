@@ -6,7 +6,7 @@ const fs = require('fs');
 module.exports = (api) => {
 	console.log('initializing models...');
 
-	api.sequelize =  new Sequelize(api.settings.db.sql.url);
+	api.sequelize =  new Sequelize(api.settings.db.sql.url, api.settings.db.sql.username, api.settings.db.sql.password);
 
 	api.models = {
 		User: require('./User')(api),
